@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.repositories.catalog.product.variant.PageableProductVariantRepositoty;
+import com.salesmanager.core.business.repositories.catalog.product.variant.PageableProductVariantRepository;
 import com.salesmanager.core.business.repositories.catalog.product.variant.ProductVariantRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -28,7 +28,7 @@ public class ProductVariantServiceImpl extends SalesManagerEntityServiceImpl<Lon
 	private ProductVariantRepository productVariantRepository;
 
 	@Autowired
-	private PageableProductVariantRepositoty pageableProductVariantRepositoty;
+	private PageableProductVariantRepository pageableProductVariantRepository;
 
 	@Inject
 	public ProductVariantServiceImpl(ProductVariantRepository productVariantRepository) {
@@ -44,7 +44,7 @@ public class ProductVariantServiceImpl extends SalesManagerEntityServiceImpl<Lon
 	public Page<ProductVariant> getByProductId(MerchantStore store, Product product, Language language, int page,
 			int count) {
 		Pageable pageRequest = PageRequest.of(page, count);
-		return pageableProductVariantRepositoty.findByProductId(store.getId(), product.getId(), pageRequest);
+		return pageableProductVariantRepository.findByProductId(store.getId(), product.getId(), pageRequest);
 	}
 
 	@Override

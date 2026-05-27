@@ -14,7 +14,7 @@ import com.salesmanager.shop.constants.Constants;
  *
  */
 @Component
-public class ImageFilePathUtils extends AbstractimageFilePath{
+public class ImageFilePathUtils extends AbstractImageFilePath{
 	
 	private String basePath = Constants.STATIC_URI;
 	private String contentUrl = null;

@@ -10,12 +10,12 @@ import javax.validation.ConstraintValidatorContext;
  * @author c.samson
  *
  */
-public class EnumValidator implements ConstraintValidator<Enum, String>
+public class EnumValidator implements ConstraintValidator<ValidEnum, String>
 {
-    private Enum annotation;
+    private ValidEnum annotation;
  
 
-    public void initialize(Enum annotation)
+    public void initialize(ValidEnum annotation)
     {
         this.annotation = annotation;
     }

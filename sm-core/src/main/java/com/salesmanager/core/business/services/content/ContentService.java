@@ -20,7 +20,7 @@ import com.salesmanager.core.model.reference.language.Language;
 /**
  * 
  * Interface defining methods responsible for CMSContentService.
- * ContentServive will be be entry point for CMS and take care of following functionalities.
+ * ContentService will be the entry point for CMS and take care of following functionalities.
  * <li>Adding,removing Content images for given merchant store</li>
  * <li>Get,Save,Update Content data for given merchant store</li>
  *  

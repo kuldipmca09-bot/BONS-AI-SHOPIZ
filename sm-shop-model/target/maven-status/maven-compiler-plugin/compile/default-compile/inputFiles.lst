@@ -25,7 +25,6 @@ D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\store\control
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\customer\attribute\CustomerAttribute.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\store\ReadableMerchantStoreList.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\catalog\product\attribute\ReadableProductVariantValue.java
-D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\validation\Enum.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\content\ContentFile.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\customer\CustomerPassword.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\content\ContentDescriptionEntity.java
@@ -145,6 +144,7 @@ D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\order\v
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\order\total\ReadableOrderTotal.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\catalog\category\ReadableCategoryFull.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\order\shipping\ReadableShippingSummary.java
+D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\validation\ValidEnum.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\customer\attribute\CustomerOptionValueEntity.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\marketplace\ReadableMarketPlace.java
 D:\CODE\shopizer\sm-shop-model\src\main\java\com\salesmanager\shop\model\catalog\category\ReadableCategoryName.java

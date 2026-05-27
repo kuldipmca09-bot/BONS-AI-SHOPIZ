@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 
-public class UserAuthenticationSuccessHandler extends AbstractAuthenticatinSuccessHandler {
+public class UserAuthenticationSuccessHandler extends AbstractAuthenticationSuccessHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserAuthenticationSuccessHandler.class);
 	

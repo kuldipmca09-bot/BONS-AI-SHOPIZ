@@ -16,7 +16,7 @@ import com.salesmanager.shop.constants.Constants;
 
 
 
-public abstract class AbstractimageFilePath implements ImageFilePath {
+public abstract class AbstractImageFilePath implements ImageFilePath {
 
 
 	public abstract String getBasePath(MerchantStore store);

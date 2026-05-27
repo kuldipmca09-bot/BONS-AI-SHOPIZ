@@ -14,7 +14,7 @@ import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
 
 
 @Component
-public class LocalImageFilePathUtils extends AbstractimageFilePath{
+public class LocalImageFilePathUtils extends AbstractImageFilePath{
 	
 	private String basePath = Constants.STATIC_URI;
 	

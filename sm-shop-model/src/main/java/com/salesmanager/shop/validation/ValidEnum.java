@@ -13,7 +13,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = {EnumValidator.class})
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Enum
+public @interface ValidEnum
 {
     public abstract String message() default "Invalid value. This is not permitted.";
      

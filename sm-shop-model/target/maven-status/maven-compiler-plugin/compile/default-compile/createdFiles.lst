@@ -128,7 +128,6 @@ com\salesmanager\shop\model\tax\TaxRateDescription.class
 com\salesmanager\shop\model\content\box\PersistableContentBox.class
 com\salesmanager\shop\model\customer\Customer.class
 com\salesmanager\shop\model\catalog\product\product\variantGroup\PersistableProductVariantGroup.class
-com\salesmanager\shop\validation\Enum.class
 com\salesmanager\shop\model\catalog\product\group\ProductGroup.class
 com\salesmanager\shop\model\shoppingcart\ReadableShoppingCart.class
 com\salesmanager\shop\model\tax\ReadableTaxClass.class
@@ -172,6 +171,7 @@ com\salesmanager\shop\model\content\common\Content.class
 com\salesmanager\shop\model\catalog\category\CategoryDescription.class
 com\salesmanager\shop\model\customer\UserAlreadyExistException.class
 com\salesmanager\shop\model\shoppingcart\ReadableShoppingCartAttributeOption.class
+com\salesmanager\shop\validation\ValidEnum.class
 com\salesmanager\shop\model\shoppingcart\CartModificationException.class
 com\salesmanager\shop\model\catalog\product\attribute\api\ReadableProductOptionValue.class
 com\salesmanager\shop\model\references\DimensionUnitOfMeasure.class

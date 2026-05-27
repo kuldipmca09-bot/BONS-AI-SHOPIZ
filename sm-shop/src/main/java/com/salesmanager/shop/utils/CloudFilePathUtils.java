@@ -8,7 +8,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.constants.Constants;
 
 @Component
-public class CloudFilePathUtils extends AbstractimageFilePath {
+public class CloudFilePathUtils extends AbstractImageFilePath {
 
 	private String basePath = Constants.STATIC_URI;
 	private String contentUrl = null;
