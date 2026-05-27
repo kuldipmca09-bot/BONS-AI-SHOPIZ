@@ -36,7 +36,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
@@ -96,13 +96,13 @@ public class ProductApiV2 {
 	@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity create(
+	public @ResponseBody BaseEntity create(
 			@Valid @RequestBody PersistableProduct product,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
 
 		Long id = productCommonFacade.saveProduct(merchantStore, product, language);
-		Entity returnEntity = new Entity();
+		BaseEntity returnEntity = new BaseEntity();
 		returnEntity.setId(id);
 		return returnEntity;
 
@@ -119,13 +119,13 @@ public class ProductApiV2 {
 	@PostMapping(value = { "/private/product" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity createV2(@Valid @RequestBody PersistableProductDefinition product,
+	public @ResponseBody BaseEntity createV2(@Valid @RequestBody PersistableProductDefinition product,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		// make sure product id is null
 		product.setId(null);
 		Long id = productDefinitionFacade.saveProductDefinition(merchantStore, product, language);
-		Entity returnEntity = new Entity();
+		BaseEntity returnEntity = new BaseEntity();
 		returnEntity.setId(id);
 		return returnEntity;
 

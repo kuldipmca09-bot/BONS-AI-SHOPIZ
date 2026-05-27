@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.entity;
 
 import java.io.Serializable;
 
-public abstract class ShopEntity extends Entity implements Serializable {
+public abstract class ShopEntity extends BaseEntity implements Serializable {
 	
 	/**
 	 * 

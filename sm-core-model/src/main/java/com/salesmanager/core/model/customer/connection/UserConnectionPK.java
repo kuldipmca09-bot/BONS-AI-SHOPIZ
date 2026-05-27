@@ -5,9 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 /**
- * Identity key for storing spring social objects
- * @author carlsamson
+ * Composite primary key for storing Spring Social connection records.
  *
+ * @author carlsamson
+ * @deprecated Spring Social integration has been removed. See
+ *             {@link UserConnection} for context. No direct replacement.
  */
 @Deprecated
 @Embeddable

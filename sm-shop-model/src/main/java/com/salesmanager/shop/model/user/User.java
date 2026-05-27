@@ -2,14 +2,14 @@ package com.salesmanager.shop.model.user;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
 /**
  * Admin users
  * @author carlsamson
  *
  */
-public class User extends Entity implements Serializable {
+public class User extends BaseEntity implements Serializable {
 
 	/**
 	 * 

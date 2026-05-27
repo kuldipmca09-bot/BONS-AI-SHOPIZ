@@ -2,14 +2,14 @@ package com.salesmanager.shop.model.order.transaction;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
 /**
  * Readable version of Transaction entity object
  * @author c.samson
  *
  */
-public class TransactionEntity extends Entity implements Serializable {
+public class TransactionEntity extends BaseEntity implements Serializable {
 	
 	/**
 	 * 

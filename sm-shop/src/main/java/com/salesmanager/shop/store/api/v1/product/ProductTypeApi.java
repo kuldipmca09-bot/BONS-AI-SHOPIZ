@@ -21,7 +21,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.type.PersistableProductType;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductTypeList;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductTypeFacade;
 import io.swagger.annotations.Api;
@@ -84,14 +84,14 @@ public class ProductTypeApi {
 	}
 
 	@PostMapping(value = "/private/product/type", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(httpMethod = "POST", value = "Create product type", notes = "", produces = "application/json", response = Entity.class)
+	@ApiOperation(httpMethod = "POST", value = "Create product type", notes = "", produces = "application/json", response = BaseEntity.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public Entity create(@RequestBody PersistableProductType type, @ApiIgnore MerchantStore merchantStore,
+	public BaseEntity create(@RequestBody PersistableProductType type, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Long id = productTypeFacade.save(type, merchantStore, language);
-		Entity entity = new Entity();
+		BaseEntity entity = new BaseEntity();
 		entity.setId(id);
 		return entity;
 

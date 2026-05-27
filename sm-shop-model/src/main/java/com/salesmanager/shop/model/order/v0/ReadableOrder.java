@@ -13,6 +13,11 @@ import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * v0 readable order DTO retained for backward compatibility.
+ *
+ * @deprecated Use {@link com.salesmanager.shop.model.order.v1.ReadableOrder}.
+ */
 @Deprecated
 public class ReadableOrder extends OrderEntity implements Serializable {
 

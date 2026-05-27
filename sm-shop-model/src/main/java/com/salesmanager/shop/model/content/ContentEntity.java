@@ -1,9 +1,12 @@
 package com.salesmanager.shop.model.content;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
+/**
+ * @deprecated Superseded by types under {@code shop.model.content.common}.
+ */
 @Deprecated
-public class ContentEntity extends Entity {
+public class ContentEntity extends BaseEntity {
 	
 	  private static final long serialVersionUID = 1L;
 	  private String code;

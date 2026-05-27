@@ -2,6 +2,12 @@ package com.salesmanager.core.model.customer.connection;
 
 //import org.springframework.social.UserIdSource;
 
+/**
+ * Profile contract for a remote (third-party) user identity, originally
+ * implemented by {@code org.springframework.social.UserIdSource}.
+ *
+ * @deprecated Spring Social integration has been removed. No direct replacement.
+ */
 @Deprecated
 public interface RemoteUser { //extends UserIdSource{
 

@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.order.history;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class OrderStatusHistory extends Entity {
+public class OrderStatusHistory extends BaseEntity {
 
 	/**
 	 * 

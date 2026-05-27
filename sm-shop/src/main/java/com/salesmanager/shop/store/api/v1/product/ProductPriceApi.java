@@ -20,7 +20,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.store.controller.product.facade.ProductPriceFacade;
 
 import io.swagger.annotations.Api;
@@ -54,7 +54,7 @@ public class ProductPriceApi {
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity save(
+	public @ResponseBody BaseEntity save(
 			@PathVariable String sku,
 			@PathVariable Long inventoryId,
 			@Valid @RequestBody PersistableProductPrice price,
@@ -65,7 +65,7 @@ public class ProductPriceApi {
 		price.setProductAvailabilityId(inventoryId);
 		
 		Long id = productPriceFacade.save(price, merchantStore);
-		return new Entity(id);
+		return new BaseEntity(id);
 
 		
 	}
@@ -75,7 +75,7 @@ public class ProductPriceApi {
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity save(
+	public @ResponseBody BaseEntity save(
 			@PathVariable String sku,
 			@Valid @RequestBody PersistableProductPrice price,
 			@ApiIgnore MerchantStore merchantStore, 
@@ -84,7 +84,7 @@ public class ProductPriceApi {
 		price.setSku(sku);
 		
 		Long id = productPriceFacade.save(price, merchantStore);
-		return new Entity(id);
+		return new BaseEntity(id);
 
 		
 	}

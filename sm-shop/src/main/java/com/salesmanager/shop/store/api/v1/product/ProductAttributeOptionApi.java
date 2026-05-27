@@ -33,7 +33,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProduct
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueList;
 import com.salesmanager.shop.model.entity.CodeEntity;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductOptionFacade;
 
@@ -298,7 +298,7 @@ public class ProductAttributeOptionApi {
 	@RequestMapping(value = { "/private/product/{id}/attribute" }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity createAttribute(
+	public @ResponseBody BaseEntity createAttribute(
 			@PathVariable Long id,
 			@Valid @RequestBody PersistableProductAttribute attribute, 
 			@ApiIgnore MerchantStore merchantStore,
@@ -308,7 +308,7 @@ public class ProductAttributeOptionApi {
 
 		ReadableProductAttributeEntity attributeEntity = productOptionFacade.saveAttribute(id, attribute, merchantStore, language);
 
-		Entity entity = new Entity();
+		BaseEntity entity = new BaseEntity();
 		entity.setId(attributeEntity.getId());
 		return entity;
 

@@ -27,7 +27,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.product.product.variantGroup.PersistableProductVariantGroup;
 import com.salesmanager.shop.model.catalog.product.product.variantGroup.ReadableProductVariantGroup;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.product.facade.ProductVariantGroupFacade;
@@ -58,7 +58,7 @@ public class ProductVariantGroupApi {
 	@PostMapping(value = { "/private/product/productVariantGroup" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public @ResponseBody Entity create(
+	public @ResponseBody BaseEntity create(
 			@Valid @RequestBody PersistableProductVariantGroup instanceGroup,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
@@ -72,7 +72,7 @@ public class ProductVariantGroupApi {
 
 		Long id = productVariantGroupFacade.create(instanceGroup, merchantStore, language);
 
-		return new Entity(id);
+		return new BaseEntity(id);
 
 	}
 

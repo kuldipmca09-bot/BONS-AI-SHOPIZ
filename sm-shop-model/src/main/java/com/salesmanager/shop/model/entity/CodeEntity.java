@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.entity;
 
-public class CodeEntity extends Entity {
+public class CodeEntity extends BaseEntity {
 
 	/**
 	 * 

@@ -1,9 +1,9 @@
 package com.salesmanager.shop.model.store;
 
 import com.salesmanager.core.model.system.MerchantConfigurationType;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class MerchantConfigEntity extends Entity {
+public class MerchantConfigEntity extends BaseEntity {
   
   /**
    * 

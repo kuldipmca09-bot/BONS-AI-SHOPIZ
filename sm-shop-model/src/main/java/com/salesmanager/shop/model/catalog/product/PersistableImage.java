@@ -1,9 +1,9 @@
 package com.salesmanager.shop.model.catalog.product;
 
 import org.springframework.web.multipart.MultipartFile;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class PersistableImage extends Entity {
+public class PersistableImage extends BaseEntity {
 	
 
 	   private static final long serialVersionUID = 1L;

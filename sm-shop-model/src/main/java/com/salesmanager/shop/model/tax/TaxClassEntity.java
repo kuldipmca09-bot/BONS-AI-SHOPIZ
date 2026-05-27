@@ -2,9 +2,9 @@ package com.salesmanager.shop.model.tax;
 
 import javax.validation.constraints.Size;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class TaxClassEntity extends Entity {
+public class TaxClassEntity extends BaseEntity {
 
 	/**
 	 * 

@@ -3,6 +3,10 @@ package com.salesmanager.shop.model.content;
 import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * @deprecated Superseded by
+ *             {@link com.salesmanager.shop.model.content.common.Content}.
+ */
 @Deprecated
 public abstract class Content implements Serializable {
 

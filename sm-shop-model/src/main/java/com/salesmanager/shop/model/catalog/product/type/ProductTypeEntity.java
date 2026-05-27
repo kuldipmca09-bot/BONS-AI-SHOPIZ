@@ -2,9 +2,9 @@ package com.salesmanager.shop.model.catalog.product.type;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class ProductTypeEntity extends Entity implements Serializable {
+public class ProductTypeEntity extends BaseEntity implements Serializable {
 
 	/**
 	 * 

@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class ConfigurationEntity extends Entity {
+public class ConfigurationEntity extends BaseEntity {
 
 	/**
 	 * 

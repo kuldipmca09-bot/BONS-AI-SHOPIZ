@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.catalog.product.inventory;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class InventoryEntity extends Entity {
+public class InventoryEntity extends BaseEntity {
 
   /**
    * 

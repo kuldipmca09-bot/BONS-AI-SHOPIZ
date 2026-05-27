@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.salesmanager.shop.application.ShopApplication;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.tax.PersistableTaxClass;
 import com.salesmanager.shop.model.tax.PersistableTaxRate;
@@ -36,9 +36,9 @@ public class TaxRateIntegrationTest extends ServicesTestSupport {
     	taxClass.setName("Test tax class");
     	
         final HttpEntity<PersistableTaxClass> taxClassEntity = new HttpEntity<>(taxClass, getHeader());
-        final ResponseEntity<Entity> response = testRestTemplate.postForEntity(String.format("/api/v1/private/tax/class/"), taxClassEntity, Entity.class);
+        final ResponseEntity<BaseEntity> response = testRestTemplate.postForEntity(String.format("/api/v1/private/tax/class/"), taxClassEntity, BaseEntity.class);
         
-        Entity e = response.getBody();
+        BaseEntity e = response.getBody();
         
         assertNotNull(e.getId());
         assertTrue(e.getId() > 0);
@@ -93,9 +93,9 @@ public class TaxRateIntegrationTest extends ServicesTestSupport {
 
     	
         final HttpEntity<PersistableTaxRate> taxClassEntity = new HttpEntity<>(taxRate, getHeader());
-        final ResponseEntity<Entity> response = testRestTemplate.postForEntity(String.format("/api/v1/private/tax/rate/"), taxClassEntity, Entity.class);
+        final ResponseEntity<BaseEntity> response = testRestTemplate.postForEntity(String.format("/api/v1/private/tax/rate/"), taxClassEntity, BaseEntity.class);
         
-        Entity e = response.getBody();
+        BaseEntity e = response.getBody();
         
         assertNotNull(e.getId());
         assertTrue(e.getId() > 0);

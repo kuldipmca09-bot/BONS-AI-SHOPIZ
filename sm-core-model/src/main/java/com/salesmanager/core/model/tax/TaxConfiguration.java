@@ -18,10 +18,10 @@ public class TaxConfiguration implements JSONAware {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String toJSONString() {
-		JSONObject data = new JSONObject();
-		data.put("taxBasisCalculation", this.getTaxBasisCalculation().name());
-		
-		return data.toJSONString();
+		JSONObject taxConfigJson = new JSONObject();
+		taxConfigJson.put("taxBasisCalculation", this.getTaxBasisCalculation().name());
+
+		return taxConfigJson.toJSONString();
 	}
 
 	public void setTaxBasisCalculation(TaxBasisCalculation taxBasisCalculation) {

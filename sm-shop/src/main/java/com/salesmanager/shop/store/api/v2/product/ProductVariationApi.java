@@ -38,7 +38,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVari
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableSelectedProductVariant;
 import com.salesmanager.shop.model.catalog.product.variation.PersistableProductVariation;
 import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
@@ -193,13 +193,13 @@ public class ProductVariationApi {
 		      response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity create(
+	public @ResponseBody BaseEntity create(
 			@Valid @RequestBody PersistableProductVariation variation, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Long variantId = productVariationFacade.create(variation, merchantStore, language);
-		return new Entity(variantId);
+		return new BaseEntity(variantId);
 
 	}
 

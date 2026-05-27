@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.entity;
 
-public class ReadableEntity extends Entity {
+public class ReadableEntity extends BaseEntity {
 
   /**
    * 

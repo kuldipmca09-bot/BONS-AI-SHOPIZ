@@ -3,10 +3,10 @@ package com.salesmanager.shop.model.order.v1;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.order.OrderAttribute;
 
-public class Order extends Entity {
+public class Order extends BaseEntity {
 
 	/**
 	 * 

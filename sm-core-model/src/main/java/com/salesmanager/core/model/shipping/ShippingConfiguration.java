@@ -183,53 +183,53 @@ public class ShippingConfiguration implements JSONAware {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String toJSONString() {
-		JSONObject data = new JSONObject();
-		data.put("shipBaseType", this.getShippingBasisType().name());
-		data.put("shipOptionPriceType", this.getShippingOptionPriceType().name());
-		data.put("shipType", this.getShippingType().name());
-		data.put("shipPackageType", this.getShippingPackageType().name());
-		if(shipFreeType!=null) {
-			data.put("shipFreeType", this.getFreeShippingType().name());
+		JSONObject shippingConfigJson = new JSONObject();
+		shippingConfigJson.put("shipBaseType", this.getShippingBasisType().name());
+		shippingConfigJson.put("shipOptionPriceType", this.getShippingOptionPriceType().name());
+		shippingConfigJson.put("shipType", this.getShippingType().name());
+		shippingConfigJson.put("shipPackageType", this.getShippingPackageType().name());
+		if(shipFreeType != null) {
+			shippingConfigJson.put("shipFreeType", this.getFreeShippingType().name());
 		}
-		data.put("shipDescription", this.getShippingDescription().name());
-		
-		
-		data.put("boxWidth", this.getBoxWidth());
-		data.put("boxHeight", this.getBoxHeight());
-		data.put("boxLength", this.getBoxLength());
-		data.put("boxWeight", this.getBoxWeight());
-		data.put("maxWeight", this.getMaxWeight());
-		data.put("freeShippingEnabled", this.freeShippingEnabled);
-		data.put("orderTotalFreeShipping", this.orderTotalFreeShipping);
-		data.put("handlingFees", this.handlingFees);
-		data.put("taxOnShipping", this.taxOnShipping);
-		
-		
-		JSONArray jsonArray = new JSONArray();
+		shippingConfigJson.put("shipDescription", this.getShippingDescription().name());
 
-		for(Package p : this.getPackages()) {
-			jsonArray.add(transformPackage(p));
+
+		shippingConfigJson.put("boxWidth", this.getBoxWidth());
+		shippingConfigJson.put("boxHeight", this.getBoxHeight());
+		shippingConfigJson.put("boxLength", this.getBoxLength());
+		shippingConfigJson.put("boxWeight", this.getBoxWeight());
+		shippingConfigJson.put("maxWeight", this.getMaxWeight());
+		shippingConfigJson.put("freeShippingEnabled", this.freeShippingEnabled);
+		shippingConfigJson.put("orderTotalFreeShipping", this.orderTotalFreeShipping);
+		shippingConfigJson.put("handlingFees", this.handlingFees);
+		shippingConfigJson.put("taxOnShipping", this.taxOnShipping);
+
+
+		JSONArray packagesJson = new JSONArray();
+
+		for(Package shippingPackage : this.getPackages()) {
+			packagesJson.add(transformPackage(shippingPackage));
 		}
-		
-		data.put("packages", jsonArray);
-		
-		
-		return data.toJSONString();
+
+		shippingConfigJson.put("packages", packagesJson);
+
+
+		return shippingConfigJson.toJSONString();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private JSONObject transformPackage(Package p) {
-		JSONObject data = new JSONObject();
-		data.put("boxWidth", p.getBoxWidth());
-		data.put("boxHeight", p.getBoxHeight());
-		data.put("boxLength", p.getBoxLength());
-		data.put("boxWeight", p.getBoxWeight());
-		data.put("maxWeight", p.getMaxWeight());
-		data.put("treshold", p.getTreshold());
-		data.put("code", p.getCode());
-		data.put("shipPackageType", p.getShipPackageType().name());
-		data.put("defaultPackaging", p.isDefaultPackaging());
-		return data;
+	private JSONObject transformPackage(Package shippingPackage) {
+		JSONObject packageJson = new JSONObject();
+		packageJson.put("boxWidth", shippingPackage.getBoxWidth());
+		packageJson.put("boxHeight", shippingPackage.getBoxHeight());
+		packageJson.put("boxLength", shippingPackage.getBoxLength());
+		packageJson.put("boxWeight", shippingPackage.getBoxWeight());
+		packageJson.put("maxWeight", shippingPackage.getMaxWeight());
+		packageJson.put("treshold", shippingPackage.getTreshold());
+		packageJson.put("code", shippingPackage.getCode());
+		packageJson.put("shipPackageType", shippingPackage.getShipPackageType().name());
+		packageJson.put("defaultPackaging", shippingPackage.isDefaultPackaging());
+		return packageJson;
 	}
 
 

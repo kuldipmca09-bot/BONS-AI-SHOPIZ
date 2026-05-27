@@ -2,10 +2,10 @@ package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
 
-public class OrderProduct extends Entity implements Serializable {
+public class OrderProduct extends BaseEntity implements Serializable {
 
 	/**
 	 * 

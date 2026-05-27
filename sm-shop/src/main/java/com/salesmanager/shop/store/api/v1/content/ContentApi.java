@@ -39,7 +39,7 @@ import com.salesmanager.shop.model.content.box.PersistableContentBox;
 import com.salesmanager.shop.model.content.box.ReadableContentBox;
 import com.salesmanager.shop.model.content.page.PersistableContentPage;
 import com.salesmanager.shop.model.content.page.ReadableContentPage;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -175,17 +175,17 @@ public class ContentApi {
 	 */
 	@PostMapping(value = "/private/content/box")
 	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = Entity.class)
+	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = BaseEntity.class)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public Entity createBox(
+	public BaseEntity createBox(
 			@RequestBody @Valid PersistableContentBox box, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Long id = contentFacade.saveContentBox(box, merchantStore, language);
-		Entity entity = new Entity();
+		BaseEntity entity = new BaseEntity();
 		entity.setId(id);
 		return entity;
 	}
@@ -230,17 +230,17 @@ public class ContentApi {
 	 */
 	@PostMapping(value = "/private/content/page")
 	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(httpMethod = "POST", value = "Create content page", notes = "", response = Entity.class)
+	@ApiOperation(httpMethod = "POST", value = "Create content page", notes = "", response = BaseEntity.class)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public Entity createPage(
+	public BaseEntity createPage(
 			@RequestBody @Valid PersistableContentPage page, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Long id = contentFacade.saveContentPage(page, merchantStore, language);
-		Entity entity = new Entity();
+		BaseEntity entity = new BaseEntity();
 		entity.setId(id);
 		return entity;
 	}

@@ -7,6 +7,13 @@ import javax.persistence.UniqueConstraint;
 
 import com.salesmanager.core.constants.SchemaConstant;
 
+/**
+ * Mapped superclass that pairs {@link AbstractUserConnection} with a composite
+ * primary key.
+ *
+ * @deprecated Spring Social integration has been removed. See
+ *             {@link UserConnection} for context. No direct replacement.
+ */
 @Deprecated
 @MappedSuperclass
 @Table(name="USERCONNECTION", uniqueConstraints = { @UniqueConstraint(columnNames = { "userId",

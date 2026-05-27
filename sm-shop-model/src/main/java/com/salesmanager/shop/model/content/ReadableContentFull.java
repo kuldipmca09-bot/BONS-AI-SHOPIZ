@@ -3,10 +3,14 @@ package com.salesmanager.shop.model.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
+/**
+ * @deprecated Superseded by full-content types under
+ *             {@code shop.model.content.common}.
+ */
 @Deprecated
-public class ReadableContentFull extends Entity {
+public class ReadableContentFull extends BaseEntity {
 	
 	private String code;
 	private boolean visible;

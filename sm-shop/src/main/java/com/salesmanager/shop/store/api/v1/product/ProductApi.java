@@ -42,7 +42,7 @@ import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -97,7 +97,7 @@ public class ProductApi {
 	 * @param product
 	 * @param merchantStore
 	 * @param language
-	 * @return Entity
+	 * @return BaseEntity
 	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/private/product", "/auth/products" }, // private
@@ -107,11 +107,11 @@ public class ProductApi {
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody Entity create(@Valid @RequestBody PersistableProduct product,
+	public @ResponseBody BaseEntity create(@Valid @RequestBody PersistableProduct product,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 	
 		Long id = productCommonFacade.saveProduct(merchantStore, product, language);
-		Entity returnEntity = new Entity();
+		BaseEntity returnEntity = new BaseEntity();
 		returnEntity.setId(id);
 		return returnEntity;
 

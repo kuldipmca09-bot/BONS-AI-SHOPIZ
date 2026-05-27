@@ -183,6 +183,7 @@ com\salesmanager\shop\model\order\history\PersistableOrderStatusHistory.class
 com\salesmanager\shop\model\catalog\product\PersistableProductReview.class
 com\salesmanager\shop\model\catalog\product\type\PersistableProductType.class
 com\salesmanager\shop\model\shipping\ShippingConfiguration.class
+com\salesmanager\shop\model\entity\BaseEntity.class
 com\salesmanager\shop\model\order\OrderEntity.class
 com\salesmanager\shop\model\catalog\product\attribute\api\ReadableProductOptionValueList.class
 com\salesmanager\shop\model\entity\UniqueEntity.class
@@ -201,7 +202,6 @@ com\salesmanager\shop\model\catalog\product\ProductPriceDescription.class
 com\salesmanager\shop\model\system\OptinEntity.class
 com\salesmanager\shop\model\catalog\manufacturer\ManufacturerDescription.class
 com\salesmanager\shop\model\customer\attribute\PersistableCustomerOption.class
-com\salesmanager\shop\model\entity\Entity.class
 com\salesmanager\shop\model\catalog\product\product\PersistableProduct.class
 com\salesmanager\shop\model\content\page\ReadableContentPageFull.class
 com\salesmanager\shop\model\order\transaction\PersistableTransaction.class

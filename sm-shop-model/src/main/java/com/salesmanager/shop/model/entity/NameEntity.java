@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
  * @author carlsamson
  *
  */
-public class NameEntity extends Entity {
+public class NameEntity extends BaseEntity {
 	
 	/**
 	 * 

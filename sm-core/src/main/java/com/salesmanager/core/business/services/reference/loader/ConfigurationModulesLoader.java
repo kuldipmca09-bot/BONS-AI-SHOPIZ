@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.system.IntegrationConfiguration;
@@ -17,12 +14,8 @@ import com.salesmanager.core.model.system.IntegrationConfiguration;
  *
  */
 public class ConfigurationModulesLoader {
-	
-	@SuppressWarnings("unused")
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationModulesLoader.class);
-	
 
-	
+
 	public static String toJSONString(Map<String,IntegrationConfiguration> configurations) throws Exception {
 		
 		StringBuilder jsonModules = new StringBuilder();

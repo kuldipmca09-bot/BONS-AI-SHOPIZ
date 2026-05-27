@@ -7,6 +7,12 @@ import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.order.OrderEntity;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
 
+/**
+ * v0 persistable order DTO retained for backward compatibility.
+ *
+ * @deprecated Use the v1 persistable order under
+ *             {@code com.salesmanager.shop.model.order.v1}.
+ */
 @Deprecated
 public class PersistableOrder extends OrderEntity implements Serializable {
 

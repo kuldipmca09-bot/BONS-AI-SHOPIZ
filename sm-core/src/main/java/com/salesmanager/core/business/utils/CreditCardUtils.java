@@ -1,5 +1,13 @@
 package com.salesmanager.core.business.utils;
 
+/**
+ * Legacy helper for masking and validating raw credit-card numbers.
+ *
+ * @deprecated Credit-card data must not be handled directly inside the
+ *             application for PCI compliance. Use a tokenizing payment
+ *             provider (e.g. Stripe, Braintree) and store only the returned
+ *             token. This class will be removed in a future release.
+ */
 @Deprecated
 public class CreditCardUtils {
 	

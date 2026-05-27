@@ -2,6 +2,11 @@ package com.salesmanager.shop.model.content;
 
 import com.salesmanager.shop.model.entity.ResourceUrlAccess;
 
+/**
+ * @deprecated Superseded by {@code shop.model.content.common} types
+ *             (e.g. {@code ReadableContentPage}). This generic "object content"
+ *             wrapper does not convey domain meaning.
+ */
 @Deprecated
 public class ObjectContent extends ContentPath implements ResourceUrlAccess {
 

@@ -5,11 +5,11 @@ import java.util.List;
 import com.salesmanager.shop.model.customer.ReadableBilling;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.customer.address.Address;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.total.ReadableTotal;
 
-public class ReadableOrderConfirmation extends Entity {
+public class ReadableOrderConfirmation extends BaseEntity {
 
 	/**
 	 * 

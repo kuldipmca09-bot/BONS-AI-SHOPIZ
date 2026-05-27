@@ -116,24 +116,24 @@ public class DefaultPackagingImpl implements Packaging {
 			if (qty > 1) {
 
 				for (int i = 1; i <= qty; i++) {
-					Product temp = new Product();
-					temp.setProductHeight(h);
-					temp.setProductLength(l);
-					temp.setProductWidth(wd);
-					temp.setProductWeight(w);
-					temp.setAttributes(product.getAttributes());
-					temp.setDescriptions(product.getDescriptions());
-					individualProducts.add(temp);
+					Product individualProduct = new Product();
+					individualProduct.setProductHeight(h);
+					individualProduct.setProductLength(l);
+					individualProduct.setProductWidth(wd);
+					individualProduct.setProductWeight(w);
+					individualProduct.setAttributes(product.getAttributes());
+					individualProduct.setDescriptions(product.getDescriptions());
+					individualProducts.add(individualProduct);
 				}
 			} else {
-				Product temp = new Product();
-				temp.setProductHeight(h);
-				temp.setProductLength(l);
-				temp.setProductWidth(wd);
-				temp.setProductWeight(w);
-				temp.setAttributes(product.getAttributes());
-				temp.setDescriptions(product.getDescriptions());
-				individualProducts.add(temp);
+				Product individualProduct = new Product();
+				individualProduct.setProductHeight(h);
+				individualProduct.setProductLength(l);
+				individualProduct.setProductWidth(wd);
+				individualProduct.setProductWeight(w);
+				individualProduct.setAttributes(product.getAttributes());
+				individualProduct.setDescriptions(product.getDescriptions());
+				individualProducts.add(individualProduct);
 			}
 			iterCount++;
 		}

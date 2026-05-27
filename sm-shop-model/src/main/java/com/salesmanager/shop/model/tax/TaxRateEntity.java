@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.tax;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class TaxRateEntity extends Entity {
+public class TaxRateEntity extends BaseEntity {
 
 	/**
 	 * 

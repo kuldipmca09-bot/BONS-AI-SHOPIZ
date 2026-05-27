@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.content.common;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class Content extends Entity {
+public class Content extends BaseEntity {
 
 	/**
 	 * 

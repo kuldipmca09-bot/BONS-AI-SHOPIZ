@@ -91,13 +91,13 @@ public class ProductImageSizeUtils {
 				}
 			}
 
-			BufferedImage tmp = new BufferedImage(w, h, type);
-			Graphics2D g2 = tmp.createGraphics();
+			BufferedImage scaledImage = new BufferedImage(w, h, type);
+			Graphics2D g2 = scaledImage.createGraphics();
 			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
 			g2.drawImage(ret, 0, 0, w, h, null);
 			g2.dispose();
 
-			ret = tmp;
+			ret = scaledImage;
 		} while (w != targetWidth || h != targetHeight);
 
 		return ret;

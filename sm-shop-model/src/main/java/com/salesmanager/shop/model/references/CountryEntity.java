@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.references;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class CountryEntity extends Entity {
+public class CountryEntity extends BaseEntity {
 
 	/**
 	 * 

@@ -5,6 +5,12 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 
 
+/**
+ * Mapped superclass for legacy Spring Social connection records.
+ *
+ * @deprecated Spring Social integration has been removed. See
+ *             {@link UserConnection} for context. No direct replacement.
+ */
 @Deprecated
 @MappedSuperclass
 public abstract class AbstractUserConnection<P> implements RemoteUser,

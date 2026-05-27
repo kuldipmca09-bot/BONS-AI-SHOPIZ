@@ -20,7 +20,7 @@ import com.salesmanager.shop.mapper.tax.PersistableTaxClassMapper;
 import com.salesmanager.shop.mapper.tax.PersistableTaxRateMapper;
 import com.salesmanager.shop.mapper.tax.ReadableTaxClassMapper;
 import com.salesmanager.shop.mapper.tax.ReadableTaxRateMapper;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.tax.PersistableTaxClass;
 import com.salesmanager.shop.model.tax.PersistableTaxRate;
@@ -57,7 +57,7 @@ public class TaxFacadeImpl implements TaxFacade {
 	private ReadableTaxRateMapper readableTaxRateMapper;
 
 	@Override
-	public Entity createTaxClass(PersistableTaxClass taxClass, MerchantStore store, Language language) {
+	public BaseEntity createTaxClass(PersistableTaxClass taxClass, MerchantStore store, Language language) {
 		Validate.notNull(taxClass,"TaxClass cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
 		Validate.notNull(store.getCode(),"MerchantStore code cannot be null");
@@ -71,7 +71,7 @@ public class TaxFacadeImpl implements TaxFacade {
 			taxClass.setStore(store.getCode());
 			TaxClass model = persistableTaxClassMapper.convert(taxClass, store, language);
 			model = taxClassService.saveOrUpdate(model);;
-			Entity id = new Entity();
+			BaseEntity id = new BaseEntity();
 			id.setId(model.getId());
 			return id;
 
@@ -258,7 +258,7 @@ public class TaxFacadeImpl implements TaxFacade {
 	}
 
 	@Override
-	public Entity createTaxRate(PersistableTaxRate taxRate, MerchantStore store, Language language) {
+	public BaseEntity createTaxRate(PersistableTaxRate taxRate, MerchantStore store, Language language) {
 		
 		Validate.notNull(taxRate,"TaxRate cannot be null");
 		Validate.notNull(taxRate.getCode(),"TaxRate code cannot be null");
@@ -279,7 +279,7 @@ public class TaxFacadeImpl implements TaxFacade {
 			
 			model = taxRateService.saveOrUpdate(model);
 			
-			Entity id = new Entity();
+			BaseEntity id = new BaseEntity();
 			id.setId(model.getId());
 			return id;
 		} catch (ServiceException e) {

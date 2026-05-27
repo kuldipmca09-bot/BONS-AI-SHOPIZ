@@ -217,19 +217,19 @@ public class OrderShippingApi {
       Delivery addr = new Delivery();
       addr.setPostalCode(address.getPostalCode());
 
-      Country c = countryService.getByCode(address.getCountryCode());
-      
-      if(c==null) {
-    	c = merchantStore.getCountry();
-      }
-      addr.setCountry(c);
+      Country country = countryService.getByCode(address.getCountryCode());
 
-      
-      Customer temp = new Customer();
-      temp.setAnonymous(true);
-      temp.setDelivery(addr);
-      
-      ShippingQuote quote = orderFacade.getShippingQuote(temp, cart, merchantStore, language);
+      if(country == null) {
+    	country = merchantStore.getCountry();
+      }
+      addr.setCountry(country);
+
+
+      Customer anonymousCustomer = new Customer();
+      anonymousCustomer.setAnonymous(true);
+      anonymousCustomer.setDelivery(addr);
+
+      ShippingQuote quote = orderFacade.getShippingQuote(anonymousCustomer, cart, merchantStore, language);
 
       ShippingSummary summary = orderFacade.getShippingSummary(quote, merchantStore, language);
 

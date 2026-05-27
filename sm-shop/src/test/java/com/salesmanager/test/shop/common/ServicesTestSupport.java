@@ -36,7 +36,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProductInventory;
 import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
@@ -219,8 +219,8 @@ public class ServicesTestSupport {
 
 		final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
 
-		final ResponseEntity<Entity> response = testRestTemplate.postForEntity(
-				"/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, Entity.class);
+		final ResponseEntity<BaseEntity> response = testRestTemplate.postForEntity(
+				"/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, BaseEntity.class);
 		assertThat(response.getStatusCode(), is(CREATED));
 
 		final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());

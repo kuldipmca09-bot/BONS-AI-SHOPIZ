@@ -84,15 +84,15 @@ public class IntegrationConfiguration implements JSONAware {
 
     if (this.getIntegrationKeys().size() > 0) {
 
-      JSONObject data = new JSONObject();
+      JSONObject integrationKeysJson = new JSONObject();
       Set<String> keys = this.getIntegrationKeys().keySet();
       for (String key : keys) {
-        data.put(key, this.getIntegrationKeys().get(key));
+        integrationKeysJson.put(key, this.getIntegrationKeys().get(key));
       }
-      String dataField = data.toJSONString();
+      String integrationKeysField = integrationKeysJson.toJSONString();
 
       returnString.append(",").append("\"integrationKeys\"").append(":");
-      returnString.append(dataField.toString());
+      returnString.append(integrationKeysField);
 
 
     }

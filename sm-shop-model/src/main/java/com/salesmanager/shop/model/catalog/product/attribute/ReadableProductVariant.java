@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class ReadableProductVariant extends Entity implements Serializable {
+public class ReadableProductVariant extends BaseEntity implements Serializable {
 
   /**
    * 

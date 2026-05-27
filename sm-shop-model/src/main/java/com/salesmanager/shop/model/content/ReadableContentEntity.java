@@ -1,5 +1,8 @@
 package com.salesmanager.shop.model.content;
 
+/**
+ * @deprecated Superseded by types under {@code shop.model.content.common}.
+ */
 @Deprecated
 public class ReadableContentEntity extends ContentEntity {
 	

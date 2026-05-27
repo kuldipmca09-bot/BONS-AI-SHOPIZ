@@ -41,20 +41,20 @@ public class LanguageUtils {
   private StoreFacade storeFacade;
 
   public Language getServiceLanguage(String lang) {
-    Language l = null;
+    Language language = null;
     if (!StringUtils.isBlank(lang)) {
       try {
-        l = languageService.getByCode(lang);
+        language = languageService.getByCode(lang);
       } catch (ServiceException e) {
         logger.error("Cannot retrieve language " + lang, e);
       }
     }
 
-    if (l == null) {
-      l = languageService.defaultLanguage();
+    if (language == null) {
+      language = languageService.defaultLanguage();
     }
 
-    return l;
+    return language;
   }
 
   /**

@@ -1,9 +1,10 @@
 package com.salesmanager.shop.model.content;
 
 /**
- * Input Object used in REST request
- * @author carlsamson
+ * Input object used in REST requests.
  *
+ * @author carlsamson
+ * @deprecated Superseded by types under {@code shop.model.content.common}.
  */
 @Deprecated
 public class ContentName extends Content {

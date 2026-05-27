@@ -99,10 +99,10 @@ public class DateUtil {
 	}
 
 	public static Date addDaysToCurrentDate(int days) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		c.add(Calendar.DATE, days);
-		return c.getTime();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, days);
+		return calendar.getTime();
 
 	}
 

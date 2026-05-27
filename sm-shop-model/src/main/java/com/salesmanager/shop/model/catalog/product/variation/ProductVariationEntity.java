@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.catalog.product.variation;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class ProductVariationEntity extends Entity {
+public class ProductVariationEntity extends BaseEntity {
 
 	/**
 	 * 

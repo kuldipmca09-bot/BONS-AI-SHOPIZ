@@ -36,42 +36,42 @@ public class MerchantConfig implements Serializable, JSONAware {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String toJSONString() {
-		JSONObject data = new JSONObject();
-		data.put("displayCustomerSection", this.isDisplayCustomerSection());
-		data.put("displayContactUs", this.isDisplayContactUs());
-		data.put("displayStoreAddress", this.isDisplayStoreAddress());
-		data.put("displayAddToCartOnFeaturedItems", this.isDisplayAddToCartOnFeaturedItems());
-		data.put("displayPagesMenu", this.isDisplayPagesMenu());
-		data.put("displayCustomerAgreement", this.isDisplayCustomerAgreement());
-		data.put("allowPurchaseItems", this.isAllowPurchaseItems());
-		data.put("displaySearchBox", this.displaySearchBox);
-		data.put("testMode", this.isTestMode());
-		data.put("debugMode", this.isDebugMode());
-		
-		if(useDefaultSearchConfig!=null) {
-			JSONObject obj = new JSONObject();
+		JSONObject configJson = new JSONObject();
+		configJson.put("displayCustomerSection", this.isDisplayCustomerSection());
+		configJson.put("displayContactUs", this.isDisplayContactUs());
+		configJson.put("displayStoreAddress", this.isDisplayStoreAddress());
+		configJson.put("displayAddToCartOnFeaturedItems", this.isDisplayAddToCartOnFeaturedItems());
+		configJson.put("displayPagesMenu", this.isDisplayPagesMenu());
+		configJson.put("displayCustomerAgreement", this.isDisplayCustomerAgreement());
+		configJson.put("allowPurchaseItems", this.isAllowPurchaseItems());
+		configJson.put("displaySearchBox", this.displaySearchBox);
+		configJson.put("testMode", this.isTestMode());
+		configJson.put("debugMode", this.isDebugMode());
+
+		if(useDefaultSearchConfig != null) {
+			JSONObject useDefaultSearchConfigJson = new JSONObject();
 			for(String key : useDefaultSearchConfig.keySet()) {
-				Boolean val = (Boolean)useDefaultSearchConfig.get(key);
-				if(val!=null) {
-					obj.put(key,val);
+				Boolean useDefault = useDefaultSearchConfig.get(key);
+				if(useDefault != null) {
+					useDefaultSearchConfigJson.put(key, useDefault);
 				}
 			}
-			data.put("useDefaultSearchConfig", obj);
+			configJson.put("useDefaultSearchConfig", useDefaultSearchConfigJson);
 		}
-		
-		if(defaultSearchConfigPath!=null) {
-			JSONObject obj = new JSONObject();
+
+		if(defaultSearchConfigPath != null) {
+			JSONObject defaultSearchConfigPathJson = new JSONObject();
 			for(String key : defaultSearchConfigPath.keySet()) {
-				String val = (String)defaultSearchConfigPath.get(key);
-				if(!StringUtils.isBlank(val)) {
-					obj.put(key, val);
+				String path = defaultSearchConfigPath.get(key);
+				if(!StringUtils.isBlank(path)) {
+					defaultSearchConfigPathJson.put(key, path);
 				}
 			}
-			data.put("defaultSearchConfigPath", obj);
+			configJson.put("defaultSearchConfigPath", defaultSearchConfigPathJson);
 		}
-		
-		
-		return data.toJSONString();
+
+
+		return configJson.toJSONString();
 	}
 
 	public void setDisplayCustomerSection(boolean displayCustomerSection) {

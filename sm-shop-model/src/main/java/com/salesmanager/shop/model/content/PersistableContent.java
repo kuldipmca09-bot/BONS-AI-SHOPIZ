@@ -3,9 +3,9 @@ package com.salesmanager.shop.model.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.BaseEntity;
 
-public class PersistableContent extends Entity implements Serializable {
+public class PersistableContent extends BaseEntity implements Serializable {
   
   /**
    * 
