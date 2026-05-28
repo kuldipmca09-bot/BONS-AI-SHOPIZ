@@ -16,7 +16,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -28,6 +27,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceCalls;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.v1.CustomerFacade;
@@ -94,40 +94,35 @@ public class CustomerFacadeImpl implements CustomerFacade {
 	public void requestPasswordReset(String customerName, String customerContextPath, MerchantStore store,
 			Language language) {
 
+		Customer customer = ServiceCalls.call(
+				() -> customerService.getByNick(customerName, store.getId()),
+				"Error while looking up customer [" + customerName + "]");
+
+		if (customer == null) {
+			throw new ResourceNotFoundException(
+					"Customer [" + customerName + "] not found for store [" + store.getCode() + "]");
+		}
+
+		String token = UUID.randomUUID().toString();
+		Date expiry = DateUtil.addDaysToCurrentDate(2);
+
+		CredentialsReset credsRequest = new CredentialsReset();
+		credsRequest.setCredentialsRequest(token);
+		credsRequest.setCredentialsRequestExpiry(expiry);
+		customer.setCredentialsResetRequest(credsRequest);
+
+		final Customer toSave = customer;
+		ServiceCalls.run(() -> customerService.saveOrUpdate(toSave),
+				"Error while saving customer reset request");
+
+		String baseUrl = filePathUtils.buildBaseUrl(customerContextPath, store);
+		String customerResetLink = new StringBuilder().append(baseUrl)
+				.append(String.format(resetCustomerLink, store.getCode(), token)).toString();
+
 		try {
-			// get customer by user name
-			Customer customer = customerService.getByNick(customerName, store.getId());
-
-			if (customer == null) {
-				throw new ResourceNotFoundException(
-						"Customer [" + customerName + "] not found for store [" + store.getCode() + "]");
-			}
-
-			// generates unique token
-			String token = UUID.randomUUID().toString();
-
-			Date expiry = DateUtil.addDaysToCurrentDate(2);
-
-			CredentialsReset credsRequest = new CredentialsReset();
-			credsRequest.setCredentialsRequest(token);
-			credsRequest.setCredentialsRequestExpiry(expiry);
-			customer.setCredentialsResetRequest(credsRequest);
-
-			customerService.saveOrUpdate(customer);
-
-			// reset password link
-			// this will build http | https ://domain/contextPath
-			String baseUrl = filePathUtils.buildBaseUrl(customerContextPath, store);
-
-			// need to add link to controller receiving user reset password
-			// request
-			String customerResetLink = new StringBuilder().append(baseUrl)
-					.append(String.format(resetCustomerLink, store.getCode(), token)).toString();
-
 			resetPasswordRequest(customer, customerResetLink, store, lamguageService.toLocale(language, store));
-
 		} catch (Exception e) {
-			throw new ServiceRuntimeException("Error while executing resetPassword request", e);
+			throw new ServiceRuntimeException("Error while sending password reset email", e);
 		}
 
 		/**
@@ -213,26 +208,19 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 		Customer customer = verifyCustomerLink(token, store);// reverify
 		customer.setPassword(passwordEncoder.encode(password));
-		try {
-			customerService.save(customer);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while saving customer",e);
-		}
+		ServiceCalls.run(() -> customerService.save(customer), "Error while saving customer");
 
 	}
 
 	private Customer verifyCustomerLink(String token, String store) {
 
-		Customer customer = null;
-		try {
-			customer = customerService.getByPasswordResetToken(store, token);
-			if (customer == null) {
-				throw new ResourceNotFoundException(
-						"Customer not fount for store [" + store + "] and token [" + token + "]");
-			}
+		Customer customer = ServiceCalls.call(
+				() -> customerService.getByPasswordResetToken(store, token),
+				"Cannot verify customer token");
 
-		} catch (Exception e) {
-			throw new ServiceRuntimeException("Cannot verify customer token", e);
+		if (customer == null) {
+			throw new ResourceNotFoundException(
+					"Customer not found for store [" + store + "] and token [" + token + "]");
 		}
 
 		Date tokenExpiry = customer.getCredentialsResetRequest().getCredentialsRequestExpiry();

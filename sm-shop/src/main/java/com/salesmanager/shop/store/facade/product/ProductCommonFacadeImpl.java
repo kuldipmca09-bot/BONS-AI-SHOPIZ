@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
@@ -43,7 +42,7 @@ import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.ServiceCalls;
 import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -99,16 +98,10 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			target = new Product();
 		}
 
-		try {
-			
-			target = persistableProductMapper.merge(product, target, store, language);
-			target = productService.saveProduct(target);
+		final Product merged = persistableProductMapper.merge(product, target, store, language);
+		Product saved = ServiceCalls.call(() -> productService.saveProduct(merged), "Error while saving product");
 
-
-			return target.getId();
-		} catch (Exception e) {
-			throw new ServiceRuntimeException(e);
-		}
+		return saved.getId();
 
 	}
 
@@ -241,19 +234,18 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
 		product.getCategories().add(category);
 		ReadableProduct readableProduct = new ReadableProduct();
-		
-		try {
 
-			productService.saveProduct(product);
-	
-			ReadableProductPopulator populator = new ReadableProductPopulator();
-	
-			populator.setPricingService(pricingService);
-			populator.setimageUtils(imageUtils);
+		ServiceCalls.run(() -> productService.saveProduct(product),
+				"Error adding product [" + product.getId() + "] to category [" + category.getId() + "]");
+
+		ReadableProductPopulator populator = new ReadableProductPopulator();
+		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
+		try {
 			populator.populate(product, readableProduct, product.getMerchantStore(), language);
-		
-		} catch(Exception e) {
-			throw new RuntimeException("Exception when adding product [" + product.getId() + "] to category [" + category.getId() + "]",e);
+		} catch (ConversionException e) {
+			throw new ConversionRuntimeException(
+					"Error converting product [" + product.getId() + "] after category attach", e);
 		}
 
 		return readableProduct;
@@ -359,21 +351,15 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 				// set default price
 				for (ProductPrice price : availability.getPrices()) {
 					if (price.isDefaultPrice()) {
-						try {
-							price.setProductPriceAmount(pricingService.getAmount(product.getPrice()));
-						} catch (ServiceException e) {
-							throw new ServiceRuntimeException("Invalid product price format");
-						}
+						price.setProductPriceAmount(ServiceCalls.call(
+								() -> pricingService.getAmount(product.getPrice()),
+								"Invalid product price format"));
 					}
 				}
 			}
 		}
 
-		try {
-			productService.save(modified);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Cannot update product ", e);
-		}
+		ServiceCalls.run(() -> productService.save(modified), "Cannot update product");
 
 	}
 
@@ -401,11 +387,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 					"Product with id [" + id + " not found for store [" + store.getCode() + "]");
 		}
 
-		try {
-			productService.delete(p);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while deleting ptoduct with id [" + id + "]", e);
-		}
+		ServiceCalls.run(() -> productService.delete(p), "Error while deleting product with id [" + id + "]");
 
 	}
 
@@ -418,42 +400,33 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
 	@Override
 	public void update(String sku, LightPersistableProduct product, MerchantStore merchant, Language language) {
-		// Get product
-		Product modified = null;
-		try {
-			modified = productService.getBySku(sku, merchant, language);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(e);
-		}
-		
+		final Product modified = ServiceCalls.call(
+				() -> productService.getBySku(sku, merchant, language),
+				"Cannot load product with sku [" + sku + "]");
+
 		ProductVariant instance = modified.getVariants().stream()
 				  .filter(inst -> sku.equals(inst.getSku()))
 				  .findAny()
 				  .orElse(null);
-		
-		if(instance!=null) {
+
+		if (instance != null) {
 			instance.setAvailable(product.isAvailable());
-			
+
 			for (ProductAvailability availability : instance.getAvailabilities()) {
 				this.setAvailability(availability, product);
 			}
 		} else {
-			// Update product with minimal set
 			modified.setAvailable(product.isAvailable());
-			
+
 			for (ProductAvailability availability : modified.getAvailabilities()) {
 				this.setAvailability(availability, product);
 			}
 		}
 
-		try {
-			productService.saveProduct(modified);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Cannot update product ", e);
-		}
-		
+		ServiceCalls.run(() -> productService.saveProduct(modified), "Cannot update product");
+
 	}
-	
+
 	/**
 	 * edit availability
 	 */
@@ -463,11 +436,9 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			// set default price
 			for (ProductPrice price : availability.getPrices()) {
 				if (price.isDefaultPrice()) {
-					try {
-						price.setProductPriceAmount(pricingService.getAmount(product.getPrice()));
-					} catch (ServiceException e) {
-						throw new ServiceRuntimeException("Invalid product price format");
-					}
+					price.setProductPriceAmount(ServiceCalls.call(
+							() -> pricingService.getAmount(product.getPrice()),
+							"Invalid product price format"));
 				}
 			}
 		}

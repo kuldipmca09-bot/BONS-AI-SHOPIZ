@@ -42,6 +42,7 @@ import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceCalls;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
@@ -76,7 +77,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 
 		//get parent store
-		try {
+		return ServiceCalls.call(() -> {
 
 			MerchantStore parent = merchantStoreService.getParent(store.getCode());
 
@@ -136,33 +137,27 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			
 			returnList.setCategories(filteredList);
 
-			
-			
+
+
 			return returnList;
 
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(e);
-		}
+		}, "Error while building category hierarchy");
 
 	}
 
 	@Override
 	public boolean existByCode(MerchantStore store, String code) {
-		try {
-			Category c = categoryService.getByCode(store, code);
-			return c != null ? true : false;
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(e);
-		}
+		Category c = ServiceCalls.call(() -> categoryService.getByCode(store, code),
+				"Error while looking up category by code");
+		return c != null;
 	}
 
 	@Override
 	public PersistableCategory saveCategory(MerchantStore store, PersistableCategory category) {
-		try {
-
+		return ServiceCalls.call(() -> {
 			Long categoryId = category.getId();
 			Category target = Optional.ofNullable(categoryId)
-					.filter(merchant -> store !=null)
+					.filter(merchant -> store != null)
 					.filter(id -> id > 0)
 					.map(categoryService::getById)
 					.orElse(new Category());
@@ -170,12 +165,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			Category dbCategory = populateCategory(store, category, target);
 			saveCategory(store, dbCategory, null);
 
-			// set category id
 			category.setId(dbCategory.getId());
 			return category;
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while updating category", e);
-		}
+		}, "Error while updating category");
 	}
 
 	private Category populateCategory(MerchantStore store, PersistableCategory category, Category target) {
@@ -289,11 +281,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	}
 
 	private List<Category> getListByLineage(MerchantStore store, String lineage) {
-		try {
-			return categoryService.getListByLineage(store, lineage);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(String.format("Error while getting root category %s", e.getMessage()), e);
-		}
+		return ServiceCalls.call(() -> categoryService.getListByLineage(store, lineage),
+				"Error while getting categories by lineage");
 	}
 
 	private Category getCategoryById(Long id, Language language) {
@@ -303,11 +292,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	@Override
 	public void deleteCategory(Category category) {
-		try {
-			categoryService.delete(category);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while deleting category", e);
-		}
+		ServiceCalls.run(() -> categoryService.delete(category), "Error while deleting category");
 	}
 
 	@Override
@@ -474,72 +459,59 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Validate.notNull(store, "Merhant must not be null");
 
 
-		try {
+		Category c = categoryService.getById(child, store.getId());
 
-			Category c = categoryService.getById(child, store.getId());
-
-			if(c == null) {
-				throw new ResourceNotFoundException("Category with id [" + child + "] for store [" + store.getCode() + "]");
-			}
-
-			if(parent.longValue()==-1) {
-				categoryService.addChild(null, c);
-				return;
-
-			}
-
-			Category p = categoryService.getById(parent, store.getId());
-
-			if(p == null) {
-				throw new ResourceNotFoundException("Category with id [" + parent + "] for store [" + store.getCode() + "]");
-			}
-
-			if (c.getParent() != null && c.getParent().getId() == parent) {
-				return;
-			}
-
-			if (c.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				throw new OperationNotAllowedException(
-						"Invalid identifiers for Merchant [" + c.getMerchantStore().getCode() + "]");
-			}
-
-			if (p.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				throw new OperationNotAllowedException(
-						"Invalid identifiers for Merchant [" + c.getMerchantStore().getCode() + "]");
-			}
-
-			p.getAuditSection().setModifiedBy("Api");
-			categoryService.addChild(p, c);
-		} catch (ResourceNotFoundException re) {
-			throw re;
-		} catch (OperationNotAllowedException oe) {
-			throw oe;
-		} catch (Exception e) {
-			throw new ServiceRuntimeException(e);
+		if (c == null) {
+			throw new ResourceNotFoundException("Category with id [" + child + "] for store [" + store.getCode() + "]");
 		}
+
+		if (parent.longValue() == -1) {
+			final Category target = c;
+			ServiceCalls.run(() -> categoryService.addChild(null, target), "Error while detaching category");
+			return;
+		}
+
+		Category p = categoryService.getById(parent, store.getId());
+
+		if (p == null) {
+			throw new ResourceNotFoundException("Category with id [" + parent + "] for store [" + store.getCode() + "]");
+		}
+
+		if (c.getParent() != null && c.getParent().getId() == parent) {
+			return;
+		}
+
+		if (c.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+			throw new OperationNotAllowedException(
+					"Invalid identifiers for Merchant [" + c.getMerchantStore().getCode() + "]");
+		}
+
+		if (p.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+			throw new OperationNotAllowedException(
+					"Invalid identifiers for Merchant [" + c.getMerchantStore().getCode() + "]");
+		}
+
+		p.getAuditSection().setModifiedBy("Api");
+		final Category parentRef = p;
+		final Category childRef = c;
+		ServiceCalls.run(() -> categoryService.addChild(parentRef, childRef), "Error while moving category");
 
 	}
 
 	@Override
 	public Category getByCode(String code, MerchantStore store) {
-		try {
-			return categoryService.getByCode(store, code);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Exception while reading category code [" + code + "]",e);
-		}
+		return ServiceCalls.call(() -> categoryService.getByCode(store, code),
+				"Exception while reading category code [" + code + "]");
 	}
 
 	@Override
 	public void setVisible(PersistableCategory category, MerchantStore store) {
 		Validate.notNull(category, "Category must not be null");
 		Validate.notNull(store, "Store must not be null");
-		try {
-			Category c = this.getById(store, category.getId());
-			c.setVisible(category.isVisible());
-			categoryService.saveOrUpdate(c);
-		} catch (Exception e) {
-			throw new ServiceRuntimeException("Error while getting category [" + category.getId() + "]",e);
-		}
+		Category c = this.getById(store, category.getId());
+		c.setVisible(category.isVisible());
+		ServiceCalls.run(() -> categoryService.saveOrUpdate(c),
+				"Error while updating visibility for category [" + category.getId() + "]");
 	}
 
 	@Override
