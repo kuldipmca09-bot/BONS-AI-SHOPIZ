@@ -3,9 +3,9 @@ package com.salesmanager.shop.store.controller.error;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
@@ -16,77 +16,58 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.salesmanager.shop.filter.RequestIdFilter;
+
+/**
+ * Global error handler for the MVC/view side of the shop. Scoped to
+ * {@code com.salesmanager.shop.store.controller}; the REST API is covered by
+ * {@link com.salesmanager.shop.store.api.exception.RestErrorHandler}.
+ *
+ * Exposes only a safe message and the request traceId to the view layer;
+ * stack traces are kept in server-side logs only.
+ */
 @ControllerAdvice("com.salesmanager.shop.store.controller")
 public class ShopErrorController {
-	
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShopErrorController.class);
-	
-    
+
+	private static final String GENERIC_MESSAGE = "An unexpected error occurred. Please contact support with the traceId.";
+
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@Produces({MediaType.APPLICATION_JSON})
+	public ModelAndView handleAccessDenied(AccessDeniedException ex) {
+		LOGGER.warn("Access denied: {}", ex.getMessage());
+		ModelAndView model = new ModelAndView("error/access_denied");
+		model.addObject("traceId", MDC.get(RequestIdFilter.MDC_KEY));
+		return model;
+	}
+
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@Produces({MediaType.APPLICATION_JSON})
 	public ModelAndView handleException(Exception ex) {
-		
-		LOGGER.error("Error page controller",ex);
-
-		ModelAndView model = null;
-		if(ex instanceof AccessDeniedException) {
-			
-			model = new ModelAndView("error/access_denied");
-			
-		} else {
-			
-			model = new ModelAndView("error/generic_error");
-			model.addObject("stackError", ExceptionUtils.getStackTrace(ex));
-			model.addObject("errMsg", ex.getMessage());
-			
-		}
-
-		return model;
- 
+		LOGGER.error("Unhandled exception in shop controller", ex);
+		return genericErrorView();
 	}
-	
 
-	
 	@ExceptionHandler(RuntimeException.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@Produces({MediaType.APPLICATION_JSON})
-	public ModelAndView handleRuntimeException(Exception ex) {
-		
-		LOGGER.error("Error page controller",ex);
-		
-		ModelAndView model = null;
-
-			
-		model = new ModelAndView("error/generic_error");
-		model.addObject("stackError", ExceptionUtils.getStackTrace(ex));
-		model.addObject("errMsg", ex.getMessage());
-
-		
-		
- 
-		return model;
- 
+	public ModelAndView handleRuntimeException(RuntimeException ex) {
+		LOGGER.error("Unhandled runtime exception in shop controller", ex);
+		return genericErrorView();
 	}
-	
-	/**
-	 * Generic exception catch allpage
-	 * @param ex
-	 * @return
-	 */
-	@RequestMapping(value="/error", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
 	public ModelAndView handleCatchAllException(Model model) {
-
-		
-		ModelAndView modelAndView = null;
-
-			
-		modelAndView = new ModelAndView("error/generic_error");
- 
-		return modelAndView;
- 
+		return genericErrorView();
 	}
 
-
+	private ModelAndView genericErrorView() {
+		ModelAndView mav = new ModelAndView("error/generic_error");
+		mav.addObject("errMsg", GENERIC_MESSAGE);
+		mav.addObject("traceId", MDC.get(RequestIdFilter.MDC_KEY));
+		return mav;
+	}
 }
