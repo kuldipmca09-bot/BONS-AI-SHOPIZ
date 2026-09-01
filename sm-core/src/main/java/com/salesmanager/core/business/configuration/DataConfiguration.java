@@ -111,7 +111,13 @@ public class DataConfiguration {
         hibernateProperties.setProperty("hibernate.connection.useUnicode", "true");
         hibernateProperties.setProperty("hibernate.id.new_generator_mappings", "false"); //unless you run on a new schema
         hibernateProperties.setProperty("hibernate.generate_statistics", "false");
-        // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
+        // Quote all identifiers so column/table names that are Oracle reserved words
+        // (e.g. VALUE, TYPE, COMMENTS) work without renaming any columns. This keeps the
+        // existing MySQL-origin schema behavior intact when running on Oracle.
+        hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
+        // Keep reserved words that already match the generated table/column casing usable
+        // as-is even when globally quoting is enabled.
+        hibernateProperties.setProperty("hibernate.globally_quoted_identifiers_skip_column_definitions", "true");
         return hibernateProperties;
     }
 
