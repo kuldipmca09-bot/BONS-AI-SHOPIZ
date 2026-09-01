@@ -43,9 +43,17 @@ public interface MerchantRepository extends JpaRepository<MerchantStore, Integer
 	@Query("select new com.salesmanager.core.model.merchant.MerchantStore(m.id, m.code, m.storename, m.storeEmailAddress) from MerchantStore m")
 	List<MerchantStore> findAllStoreCodeNameEmail();
 	
-	@Query(
-	  value = "select * from {h-schema}MERCHANT_STORE m "
-	  		+ "where m.STORE_CODE = ?1 or ?2 is null or m.PARENT_ID = ?2", 
-	  nativeQuery = true)
-	  List<MerchantStore> listByGroup(String storeCode, Integer id);
+	/**
+	 * Stores in the group identified by storeCode: the store itself plus any
+	 * store whose parent is the given id.
+	 *
+	 * Was a native "select * from MERCHANT_STORE". Oracle cannot infer a type for
+	 * a bare bind variable in "?2 is null" and fails with ORA-00932/ORA-01722, so
+	 * the query is expressed in JPQL instead. JPQL also removes the need for the
+	 * {h-schema} placeholder, which on Oracle silently resolves to the connecting
+	 * user's schema rather than SALESMANAGER when those differ.
+	 */
+	@Query("select m from MerchantStore m left join m.parent mp "
+			+ "where m.code = ?1 or ?2 is null or mp.id = ?2")
+	List<MerchantStore> listByGroup(String storeCode, Integer id);
 }

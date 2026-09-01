@@ -489,7 +489,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		ProductList productList = new ProductList();
 
 		Query countQ = this.em.createQuery(
-				"select count(p) from Product as p INNER JOIN p.availabilities pa INNER JOIN p.categories categs where p.merchantStore.id=:mId and categs.id in (:cid) and pa.region in (:lid) and p.available=1 and p.dateAvailable<=:dt");
+				// p.available=1 compared a boolean attribute to an integer literal.
+				// MySQL and H2 coerced it silently; Oracle maps the column to
+				// NUMBER(1) and Hibernate's HQL parser rejects the type mismatch.
+				// p.available=true is equivalent and is what every sibling query
+				// in this class already uses.
+				"select count(p) from Product as p INNER JOIN p.availabilities pa INNER JOIN p.categories categs where p.merchantStore.id=:mId and categs.id in (:cid) and pa.region in (:lid) and p.available=true and p.dateAvailable<=:dt");
 
 		countQ.setParameter("cid", categoryIds);
 		countQ.setParameter("lid", regionList);

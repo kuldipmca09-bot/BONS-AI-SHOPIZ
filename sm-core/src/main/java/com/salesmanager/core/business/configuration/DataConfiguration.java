@@ -106,9 +106,13 @@ public class DataConfiguration {
         hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", "true");
         hibernateProperties.setProperty("hibernate.cache.use_query_cache", "true");
         hibernateProperties.setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
-        hibernateProperties.setProperty("hibernate.connection.CharSet", "utf8");
-        hibernateProperties.setProperty("hibernate.connection.characterEncoding", "utf8");
-        hibernateProperties.setProperty("hibernate.connection.useUnicode", "true");
+        /*
+         * hibernate.connection.CharSet / characterEncoding / useUnicode were
+         * MySQL Connector/J specific and are not understood by the Oracle
+         * driver. On Oracle the character set is a property of the database
+         * (create it as AL32UTF8) and NLS is handled by the orai18n artifact on
+         * the classpath, so these three are intentionally not set here.
+         */
         hibernateProperties.setProperty("hibernate.id.new_generator_mappings", "false"); //unless you run on a new schema
         hibernateProperties.setProperty("hibernate.generate_statistics", "false");
         // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");

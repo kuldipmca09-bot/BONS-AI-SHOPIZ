@@ -103,7 +103,37 @@ Access the headless web application at: http://localhost:8080/swagger-ui.html
 
 
 The instructions above will let you run the application with default settings and configurations.
-Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
+Please read the instructions on how to connect to Oracle, configure an email server and configure other subsystems
+
+### Connecting to Oracle:
+-------------------
+
+Shopizer runs on Oracle Database 12.2 or later (12c, 18c, 19c, 21c). The
+database must use a Unicode character set (`NLS_CHARACTERSET` = `AL32UTF8`),
+because the catalogue stores multi language content.
+
+Create the schema owner once, as a DBA:
+
+    sqlplus sys/<password>@//localhost:1521/XEPDB1 as sysdba
+    SQL> @sm-core/src/main/resources/sql/oracle/create_schema.sql
+
+Note that Oracle has no separate notion of a database and a user: the schema
+*is* the user. There is no `CREATE DATABASE` step, and `db.schema` must name
+the user that owns the tables.
+
+Then point the application at it by editing the datasource settings and
+starting with the `oracle` profile:
+
+    sm-shop/src/main/resources/profiles/oracle/database.properties
+    java -jar sm-shop/target/shopizer.jar --spring.profiles.active=oracle
+
+The tables themselves are created on first boot by `hibernate.hbm2ddl.auto=update`.
+A snapshot of the DDL this produces is checked in at
+`sm-core/src/main/resources/sql/oracle/schema.sql` for review, or for sites that
+prefer to apply DDL by hand — in that case set `hibernate.hbm2ddl.auto=validate`.
+
+The `mysql` profile name still exists and now configures an Oracle datasource,
+so existing launch scripts keep working; new deployments should use `oracle`.
 
 
 ### Documentation:

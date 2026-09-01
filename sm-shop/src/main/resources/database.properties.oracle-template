@@ -1,0 +1,57 @@
+##
+## db config - default profile - TEMPLATE
+##
+## Copy this file to database.properties in the same directory and fill in your
+## own connection details:
+##
+##     cp database.properties.oracle-template database.properties
+##
+## database.properties itself is gitignored (see sm-shop/.gitignore) because it
+## holds credentials, which is why this template is committed instead.
+##
+## The "default" profile (no -Dspring.profiles.active) loads database.properties,
+## per sm-core/src/main/resources/spring/shopizer-core-config.xml. Prefer running
+## with -Dspring.profiles.active=oracle, which reads
+## profiles/oracle/database.properties and needs no copying.
+##
+## Every key below is read by
+## sm-core/src/main/java/com/salesmanager/core/business/configuration/DataConfiguration.java
+## through unprefixed @Value placeholders (db.* / hibernate.*). Spring Boot
+## style keys such as spring.datasource.* or spring.jpa.* are NOT read by that
+## class, so they must not be used here.
+##
+
+#Need to run these commands as a DBA before running shopizer - choose your own password
+#sqlplus> CREATE USER SALESMANAGER IDENTIFIED BY "very-long-shopizer-password";
+#sqlplus> GRANT CONNECT, RESOURCE TO SALESMANAGER;
+#sqlplus> GRANT CREATE VIEW, CREATE SEQUENCE, CREATE TABLE TO SALESMANAGER;
+#sqlplus> ALTER USER SALESMANAGER QUOTA UNLIMITED ON USERS;
+#See sm-core/src/main/resources/sql/oracle/create_schema.sql
+
+#ORACLE
+db.jdbcUrl=jdbc:oracle:thin:@//localhost:1521/XEPDB1
+db.user=SALESMANAGER
+db.password=password
+db.driverClass=oracle.jdbc.OracleDriver
+
+#ShopizerOracleDialect extends Oracle12cDialect (standard OFFSET .. FETCH NEXT
+#pagination) and additionally maps the TextType columns to CLOB instead of the
+#deprecated LONG type. LONG would break the ~30 "select distinct ... join fetch
+#descriptions" repository queries, since Oracle forbids LONG in SELECT DISTINCT.
+#See sm-core .../business/configuration/db/ShopizerOracleDialect.java
+hibernate.dialect=com.salesmanager.core.business.configuration.db.ShopizerOracleDialect
+
+#Oracle has no "SELECT 1" without a FROM clause.
+db.preferredTestQuery=SELECT 1 FROM DUAL
+
+db.show.sql=false
+db.schema=SALESMANAGER
+hibernate.hbm2ddl.auto=update
+
+
+##
+## connection pool configuration
+##
+db.initialPoolSize=4
+db.minPoolSize=4
+db.maxPoolSize=8

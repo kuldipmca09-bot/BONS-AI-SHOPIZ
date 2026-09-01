@@ -141,6 +141,9 @@
 		</beans:bean>
 	</beans:beans>
 	
+	<!-- Deprecated profile name, kept so existing deployments launched with
+		-Dspring.profiles.active=mysql keep starting. It now points at an Oracle
+		datasource; new deployments should use the "oracle" profile below. -->
 	<beans:beans profile="mysql">
 		<beans:bean
 			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -151,6 +154,22 @@
 					<beans:value>classpath:profiles/mysql/database.properties</beans:value>
 					<beans:value>classpath:email.properties</beans:value>
 					<beans:value>classpath:profiles/mysql/shopizer-core.properties</beans:value>
+					<beans:value>classpath:authentication.properties</beans:value>
+				</beans:list>
+			</beans:property>
+		</beans:bean>
+	</beans:beans>
+
+	<beans:beans profile="oracle">
+		<beans:bean
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<beans:property name="ignoreUnresolvablePlaceholders"
+				value="false" />
+			<beans:property name="locations">
+				<beans:list>
+					<beans:value>classpath:profiles/oracle/database.properties</beans:value>
+					<beans:value>classpath:email.properties</beans:value>
+					<beans:value>classpath:profiles/oracle/shopizer-core.properties</beans:value>
 					<beans:value>classpath:authentication.properties</beans:value>
 				</beans:list>
 			</beans:property>

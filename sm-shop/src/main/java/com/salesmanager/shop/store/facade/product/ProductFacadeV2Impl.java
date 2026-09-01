@@ -44,7 +44,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 
 
 @Service("productFacadeV2")
-@Profile({ "default", "cloud", "gcp", "aws", "mysql" , "local" })
+@Profile({ "default", "cloud", "gcp", "aws", "oracle", "mysql" , "local" })
 public class ProductFacadeV2Impl implements ProductFacade {
 	
 
